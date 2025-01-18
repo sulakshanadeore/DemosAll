@@ -109,3 +109,20 @@ sp_help suppliers
 
 select * from Products
 where SupplierID=1
+
+--------------------------------------------------------
+---having examples
+select supplierid,sum(UnitPrice)  "SumOfPrices(Rs)",count(productname) as productCount,min(unitprice) minimumprice , max(unitprice) maximumprice ,avg(unitprice) averagePrice  from products
+group by supplierid
+having sum(UnitPrice) >77
+order by sum(unitprice)
+
+
+---find the supplier who supplies the maximum number of products
+select supplierid,count(productname)  from products
+group by supplierid
+having count(productname)>=5
+order by count(productname) desc
+
+
+
