@@ -1,0 +1,107 @@
+----Joins
+What is Join?
+"JOIN" is a clause, used for combining rows from two or more tables
+which have a common column between them, and we get the data based on a criteria.
+
+When to use join?
+When the data is not in a single table, data divided in different table/s then we 
+use a join.
+How to use
+
+JOIN keyword
+Types: Inner Join
+	   Self Join
+	   Outer Join
+	   Cross Join
+-------------------------------------------------------------------------
+select * from Products
+
+---find the companyname, and the country of the company who supplies us products
+select productid,productname,p.SupplierID,companyname,Country,QuantityPerUnit,UnitPrice,UnitsInStock,UnitsOnOrder,ReorderLevel,Discontinued from Products as p,Suppliers as s
+where  p.supplierid=s.SupplierID
+
+select c.CompanyName customerName,c.ContactName customerContact,c.City customerCity,c.Address CustAddress,s.CompanyName supplierCompany, s.ContactName supplierContact, s.Address SupplierAddress
+from Customers c inner join Suppliers s
+on c.city=s.City or c.Address=s.Address
+
+
+select s.*,p.* from suppliers as s,Products as p
+where s.SupplierID=p.SupplierID
+
+
+select * from Employees
+
+select EmployeeID,FirstName+' ' + LastName as FullName,ReportsTo from Employees
+
+select e.employeeid,e.FirstName+' ' + e.LastName as EployeesFullName ,e.reportsto, 
+e1.FirstName + '  '+ e1.LastName as ManagerNAme
+from Employees   e , Employees e1
+where e.reportsto=e1.EmployeeID
+
+create table ShirtColors
+(colorid int,
+colorname varchar(10))
+insert into ShirtColors(colorid,colorname) values (1,'Blue'),(2,'Green'),(3,'Red')
+create table ShirtSizes
+(SizeID int,
+SizeName varchar(6))
+insert into ShirtSizes(SizeID,SizeName) values (1,'Small'),(2,'Medium'),(3,'Large')
+
+
+
+select * from ShirtColors
+select * from shirtSizes
+
+select * from ShirtColors,ShirtSizes
+order by colorname
+
+select * from ShirtColors cross join ShirtSizes
+order by colorname
+
+blue---S/M/L
+Green---S/M/L
+Red-----S/M/L
+
+
+
+
+outer joins----left,right and full
+
+
+create table custdata
+(custid int primary key,
+custname varchar(5))
+insert into custdata(custid,custname) values (1,'John'),(2,'Smith'),(3,'Jack')
+
+create table custOrders
+(orderid int primary key,
+custid int foreign key references custdata(custid))
+
+insert into custOrders  (orderid,custid)  values
+(101,1), (102,1),(103,2)
+
+
+
+select * from custdata
+
+select * from custOrders
+insert into custorders values(104,null)
+---find the customers including those without orders
+select d.custid,d.custname,o.orderid from custdata d
+LEFT OUTER JOIN custOrders o
+on d.custid=o.custid
+
+---find the customers who have placed orders
+select d.custid,d.custname,o.orderid from custdata d
+RIGHT OUTER JOIN custOrders o
+on d.custid=o.custid
+
+LHS								RHS	
+select d.custid,d.custname,o.orderid from 
+custOrders o RIGHT OUTER JOIN custdata d
+on d.custid=o.custid
+
+
+select d.custid,d.custname,o.orderid from 
+custOrders o FULL OUTER JOIN custdata d
+on d.custid=o.custid
