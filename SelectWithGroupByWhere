@@ -1,0 +1,111 @@
+use northwind
+go
+
+sp_help products
+
+discontinued---bit 
+0---false
+
+select * from products
+where Discontinued=0
+
+select * from Products
+where Discontinued!=1
+
+--find the products who are in categoryid =1 and categoryid=2,categoryid=3
+select * from Products
+where CategoryID=1 or CategoryID=2 or CategoryID=3
+
+--in works like OR
+select * from Products
+where CategoryID in(1,2,3)
+
+--NOT IN--- negates the OR condition
+
+--find the products whose categoryid =1 and supplier id 1=1 
+
+select * from Products
+where CategoryID=1 and supplierid=1
+---------------------------------------------------
+select ProductName,UnitPrice  from Products
+where UnitPrice>=10 and unitprice<=40
+order by UnitPrice desc
+
+select productname,unitprice from products
+where unitprice not between 10 and 40
+order by unitprice
+
+select UnitPrice,ProductName  from Products
+--------------------------------------------
+select  productName from Products
+where productname  not like 'CHAI'
+--------------------------------------------
+--group by----groups the data on the aggregate function and the column in the select list
+
+----aggregate function----gives you one value for a group of rows---sum,min,max,count,avg
+--group by must have column name/s except aggregate function
+----single row function-----number of rows = number of values----upper,lower, etc
+
+select ProductName,upper(productname) from Products
+
+select productname, categoryid from Products
+where categoryid=1
+
+select count(productname) from products
+where categoryid=1
+
+select count(unitprice) from products
+
+--how many products are there in category id=1
+select count(unitprice) from Products
+where categoryid=1
+
+---display all prices and productname from categoryid=1
+select UnitPrice,ProductName  from Products
+where categoryid=1
+min---4.50
+max---263.50
+count---12
+sum= 462.75
+avg-38.562500
+
+
+select avg(unitprice) from Products
+where categoryid=1
+
+select * from Categories
+
+select (25.00+19.00+4.50+14.00+18.00+263.50+18.00+46.00+14.00+15.00+7.75+18.00)/12
+
+--find the number of total number of products in each categogy
+----find the count of products categoryid wise
+select categoryid,count(productname) from products
+group by categoryid
+
+
+---find the sum of unitprices categoryid wise
+select categoryid,sum(UnitPrice)  "SumOfPrices(Rs)" from products
+group by categoryid
+order by "SumOfPrices(Rs)" 
+
+select categoryid,sum(UnitPrice)  "SumOfPrices(Rs)" from products
+group by categoryid
+order by sum(UnitPrice)
+
+
+select supplierid,sum(UnitPrice)  "SumOfPrices(Rs)",count(productname) as productCount,min(unitprice) minimumprice , max(unitprice) maximumprice ,avg(unitprice) averagePrice  from products
+group by supplierid
+order by productCount
+
+
+---find the supplier who supplies the maximum number of products
+select supplierid,count(productname)  from products
+group by supplierid
+order by count(productname) desc
+
+select * from Suppliers
+where supplierid=12
+sp_help suppliers
+
+select * from Products
+where SupplierID=1
