@@ -3,6 +3,19 @@ go
 
 sp_help products
 
+select * from Customers
+where region is null and country like 'GERMANY'
+
+select * from Customers
+where region is  null and country like 'CANADA'
+
+select * from Customers
+where region is not null and country like 'CANADA'
+
+
+
+
+
 discontinued---bit 
 0---false
 
